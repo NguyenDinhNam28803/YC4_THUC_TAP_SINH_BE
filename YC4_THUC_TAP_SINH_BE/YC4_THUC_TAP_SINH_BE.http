@@ -1,0 +1,6 @@
+@YC4_THUC_TAP_SINH_BE_HostAddress = http://localhost:5080
+
+GET {{YC4_THUC_TAP_SINH_BE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
