@@ -48,4 +48,15 @@ namespace YC4_THUC_TAP_SINH_BE.Dto
         [Required]
         public string Phone { get; set; }
     }
+
+    public class UpdateUserRequest
+    {
+        [StringLength(100)]
+        public string FullName { get; set; }
+
+        [EmailAddress]
+        public string Email { get; set; }
+
+        public bool? IsActive { get; set; }
+    }
 }
