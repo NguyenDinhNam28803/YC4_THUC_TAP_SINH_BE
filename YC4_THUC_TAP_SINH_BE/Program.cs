@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using YC4_THUC_TAP_SINH_BE.Data;
 using YC4_THUC_TAP_SINH_BE.Models;
+using YC4_THUC_TAP_SINH_BE.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,12 @@ builder.Services.Configure<JwtSettings>(jwtSettings);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IUserInterface,UserService>();
+builder.Services.AddScoped<IRoleInterface,RoleService>();
+builder.Services.AddScoped<IFunctionInterface, FunctionService>();
+
+builder.Services.AddScoped<IJwtService,JwtService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -118,5 +125,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+Console.WriteLine("=== PERMISSION SYSTEM API ===");
+Console.WriteLine("Link_API: https://localhost:7192/");
+Console.WriteLine("Sample Users:");
+Console.WriteLine("  - admin/123456 (Admin role)");
+Console.WriteLine("  - manager1/123456 (Manager role)");
+Console.WriteLine("  - user1/123456 (User role)");
+Console.WriteLine("  - guest1/123456 (Guest role)");
+Console.WriteLine("=============================");
 
 app.Run();
