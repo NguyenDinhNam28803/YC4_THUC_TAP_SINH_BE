@@ -10,6 +10,9 @@ using YC4_THUC_TAP_SINH_BE.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Console.InputEncoding = Encoding.UTF8;
+Console.OutputEncoding = Encoding.UTF8;
+
 // Add services to the container.
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettings);
@@ -111,6 +114,28 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+Console.WriteLine("");
+Console.WriteLine("========================================");
+Console.WriteLine("   YC4 PERMISSION SYSTEM API");
+Console.WriteLine("========================================");
+Console.WriteLine("");
+
+try
+{
+    Console.WriteLine("→ Initializing database and seed data...");
+    await SeedData.InitializeAsync(app.Services);
+    Console.WriteLine("");
+    Console.WriteLine("✓ Database initialization completed!");
+    Console.WriteLine("");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("");
+    Console.WriteLine($"❌ Error during database initialization: {ex.Message}");
+    Console.WriteLine("");
+}
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -126,13 +151,43 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("=== PERMISSION SYSTEM API ===");
-Console.WriteLine("Link_API: https://localhost:7192/");
-Console.WriteLine("Sample Users:");
-Console.WriteLine("  - admin/123456 (Admin role)");
-Console.WriteLine("  - manager1/123456 (Manager role)");
-Console.WriteLine("  - user1/123456 (User role)");
-Console.WriteLine("  - guest1/123456 (Guest role)");
-Console.WriteLine("=============================");
+// ==================== STARTUP INFO ====================
+Console.WriteLine("========================================");
+Console.WriteLine("   SERVER INFORMATION");
+Console.WriteLine("========================================");
+Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
+Console.WriteLine($"API Base: https://localhost:7192/api or https://localhost:5080/api");
+Console.WriteLine("");
+Console.WriteLine("========================================");
+Console.WriteLine("   SAMPLE ACCOUNTS");
+Console.WriteLine("========================================");
+Console.WriteLine("Admin Account:");
+Console.WriteLine("  Username: admin");
+Console.WriteLine("  Password: admin123");
+Console.WriteLine("");
+Console.WriteLine("Test Registration:");
+Console.WriteLine("  POST /api/auth/register");
+Console.WriteLine("  POST /api/auth/login");
+Console.WriteLine("");
+Console.WriteLine("========================================");
+Console.WriteLine("   ROLES & PERMISSIONS");
+Console.WriteLine("========================================");
+Console.WriteLine("Roles:");
+Console.WriteLine("  - Admin (tất cả quyền)");
+Console.WriteLine("  - Manager (quản lý user + report)");
+Console.WriteLine("  - User (xem user + report)");
+Console.WriteLine("  - Guest (chỉ xem report)");
+Console.WriteLine("");
+Console.WriteLine("Functions: 16 permissions");
+Console.WriteLine("  - USER_VIEW, USER_CREATE, USER_EDIT, USER_DELETE, USER_EXPORT");
+Console.WriteLine("  - ROLE_VIEW, ROLE_CREATE, ROLE_EDIT, ROLE_DELETE");
+Console.WriteLine("  - FUNCTION_VIEW, FUNCTION_CREATE, FUNCTION_EDIT, FUNCTION_DELETE");
+Console.WriteLine("  - REPORT_VIEW, REPORT_EXPORT");
+Console.WriteLine("  - SYSTEM_SETTINGS");
+Console.WriteLine("");
+Console.WriteLine("========================================");
+Console.WriteLine($"🚀 Server started at: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+Console.WriteLine("========================================");
+Console.WriteLine("");
 
 app.Run();

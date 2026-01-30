@@ -11,9 +11,9 @@ namespace YC4_THUC_TAP_SINH_BE.Dto
     public class LoginResponse
     {
         public bool Success { get; set; }
-        public string Token { get; set; }
-        public DateTime Expiration { get; set; }
-        public UserInfo User { get; set; }
+        public string? Token { get; set; }
+        public DateTime? Expiration { get; set; }
+        public UserInfo? User { get; set; }
         public string Message { get; set; }
     }
 
@@ -32,6 +32,10 @@ namespace YC4_THUC_TAP_SINH_BE.Dto
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string Username { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 6)]
+        public string FullName { get; set; }
 
         [Required]
         [StringLength(100, MinimumLength = 6)]
