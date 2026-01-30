@@ -12,11 +12,13 @@ namespace YC4_THUC_TAP_SINH_BE.Services
         private readonly ApplicationDbContext _context;
         private readonly IJwtService _jwtService;
         private readonly IUserInterface _userInterface;
-        public AuthService(ApplicationDbContext context, IJwtService jwtService, IUserInterface userInterface)
+        private readonly IRoleInterface _roleInterface;
+        public AuthService(ApplicationDbContext context, IJwtService jwtService, IUserInterface userInterface, IRoleInterface roleInterface)
         {
             _context = context;
             _jwtService = jwtService;
             _userInterface = userInterface;
+            _roleInterface = roleInterface;
         }
 
         public async Task<LoginResponse> Login(LoginRequest loginRequest)
@@ -115,6 +117,11 @@ namespace YC4_THUC_TAP_SINH_BE.Services
                     UpdatedAt = DateTime.UtcNow
                 };
                 var createdUser = await _userInterface.CreateAsync(user);
+                var userRole = await _roleInterface.GetByNameAsync("User");
+                if (userRole != null)
+                {
+                    await _userInterface.AssignRoleAsync(createdUser.UserId, userRole.RoleId);
+                }
                 return new LoginResponse
                 {
                     Success = true,

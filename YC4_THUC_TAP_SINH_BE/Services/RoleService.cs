@@ -15,6 +15,8 @@ namespace YC4_THUC_TAP_SINH_BE.Services
         public async Task<List<Role>> GetAllAsync()
         {
             return await _context.Roles
+                .Include(r => r.UserRoles)
+                    .ThenInclude(r => r.User)
                 .Include(r => r.RoleFunctions)
                     .ThenInclude(rf => rf.Function)
                 .ToListAsync();

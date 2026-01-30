@@ -36,6 +36,8 @@ namespace YC4_THUC_TAP_SINH_BE.Services
             return await _context.Users
                 .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)
+                .Include(u => u.UserFunctions)
+                    .ThenInclude(u => u.Function)
                 .Where(u => u.IsActive)
                 .ToListAsync();
         }

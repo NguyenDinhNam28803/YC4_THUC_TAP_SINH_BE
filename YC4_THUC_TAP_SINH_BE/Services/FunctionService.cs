@@ -14,7 +14,12 @@ namespace YC4_THUC_TAP_SINH_BE.Services
 
         public async Task<List<Function>> GetAllAsync()
         {
-            return await _context.Functions.ToListAsync();
+            return await _context.Functions
+                .Include(f => f.UserFunctions)
+                    .ThenInclude(f => f.User)
+                .Include(r => r.RoleFunctions)
+                    .ThenInclude(r => r.Role)
+                .ToListAsync();
         }
 
         public async Task<Function> GetByIdAsync(int functionId)

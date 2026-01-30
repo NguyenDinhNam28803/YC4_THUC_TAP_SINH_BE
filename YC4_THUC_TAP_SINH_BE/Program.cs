@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<IUserInterface,UserService>();
 builder.Services.AddScoped<IRoleInterface,RoleService>();
 builder.Services.AddScoped<IFunctionInterface, FunctionService>();
