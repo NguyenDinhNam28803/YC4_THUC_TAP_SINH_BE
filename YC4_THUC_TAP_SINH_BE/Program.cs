@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using OfficeOpenXml;
 using System.Reflection;
 using System.Text;
 using YC4_THUC_TAP_SINH_BE.Data;
@@ -12,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 Console.InputEncoding = Encoding.UTF8;
 Console.OutputEncoding = Encoding.UTF8;
+
+// Set up EPPlus license context
+ExcelPackage.License.SetNonCommercialPersonal("Nguyễn Đình Nam");
 
 // Add services to the container.
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
